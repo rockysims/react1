@@ -1,0 +1,27 @@
+.board {
+	display: table;
+}
+
+.row {
+	display: table-row;
+}
+
+.cell {
+	display: table-cell;
+	width: 10px;
+	height: 10px;
+	border: 1px solid #999999;
+	padding: 3px 10px;
+}
+
+.cell.blank {
+	background: white;
+}
+
+.cell.start {
+	background: lightblue;
+}
+
+.cell.end {
+	background: orange;
+}
