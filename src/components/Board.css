@@ -1,5 +1,6 @@
 .board {
 	display: table;
+	user-select: none;
 }
 
 .row {
@@ -16,6 +17,7 @@
 
 .cell.blank {
 	background: white;
+	color: transparent;
 }
 
 .cell.start {
@@ -24,4 +26,14 @@
 
 .cell.end {
 	background: orange;
+}
+
+.cell.dragTarget {
+	border: 2px solid black;
+	padding: 2px 9px;
+}
+
+.cell.dragSource {
+	border: 2px dotted black;
+	padding: 2px 9px;
 }
