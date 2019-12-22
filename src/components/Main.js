@@ -3,51 +3,68 @@ import Board from './Board';
 
 export default class Main extends Component {
 	state = {
-		board: [],
-		drag: {
-			sourceCell: null,
-			targetCell: null
-		}
+		board: []
 	}
 
-	onDragCellChanged(dragCell, oldDragCell) {
-		const drag = this.state.drag;
+	// onDrag(oldCell, newCell, srcCell) {
+	// 	this.swapCells(oldCell, srcCell);
+	// 	this.swapCells(srcCell, newCell);
+	// }
 
-		if (oldDragCell === null) {
-			//start drag
-			drag.sourceCell = dragCell;
-			drag.sourceCell.classList.add('dragSource');
-		} else if (dragCell === null) {
-			//end drag
-			drag.targetCell = drag.targetCell || drag.sourceCell;
-			this.swapCells(drag.sourceCell, drag.targetCell);
-			drag.sourceCell.classList.remove('dragSource');
-			drag.sourceCell = null;
-			drag.targetCell = null;
-		} else {
-			//continue drag
-			drag.targetCell = dragCell;
-		}
-	}
+	// onDrag(sourceCell, targetCell, prevTargetCell) {
+	// 	// prevTargetCell = prevTargetCell || ?;
 
-	swapCells(a, b) {
-		const rA = +a.getAttribute('r');
-		const cA = +a.getAttribute('c');
-		const rB = +b.getAttribute('r');
-		const cB = +b.getAttribute('c');
-		const { board } = this.state;
-		this.setState({board: 
-			board.map((row, r) => row.map((cell, c) => {
-				if (r === rA && c === cA) return board[rB][cB];
-				if (r === rB && c === cB) return board[rA][cA];
-				return cell;
-			}))
-		});
-	}
+	// 	if (sourceCell && targetCell) {
+	// 		this.swapCells(sourceCell, targetCell);
+	// 	}
+	// }
+
+	// onDragCellChanged(dragCell, oldDragCell) {
+	// 	//*
+	// 	if (oldDragCell && dragCell) {
+	// 		this.swapCells(oldDragCell, dragCell);
+	// 	}
+	// 	/*/
+	// 	const drag = this.state.drag;
+
+	// 	if (oldDragCell === null) {
+	// 		//start drag
+	// 		drag.sourceCell = dragCell;
+	// 		drag.sourceCell.classList.add('dragSource');
+	// 	} else if (dragCell === null) {
+	// 		//end drag
+	// 		drag.targetCell = drag.targetCell || drag.sourceCell;
+	// 		this.swapCells(drag.sourceCell, drag.targetCell);
+	// 		drag.sourceCell.classList.remove('dragSource');
+	// 		drag.sourceCell = null;
+	// 		drag.targetCell = null;
+
+	// 	} else {
+	// 		//continue drag
+	// 		drag.targetCell = dragCell;
+	// 	}
+	// 	//*/
+	// }
+
+	// swapCells(a, b) {
+	// 	const rA = +a.getAttribute('r');
+	// 	const cA = +a.getAttribute('c');
+	// 	const rB = +b.getAttribute('r');
+	// 	const cB = +b.getAttribute('c');
+	// 	const { board } = this.state;
+	// 	this.setState({
+	// 		board:
+	// 			board.map((row, r) => row.map((cell, c) => {
+	// 				if (r === rA && c === cA) return board[rB][cB];
+	// 				if (r === rB && c === cB) return board[rA][cA];
+	// 				return cell;
+	// 			}))
+	// 	});
+	// }
 
 	componentDidMount() {
 		const size = 10;
-		
+
 		//board[][] = 'blank'
 		const { board } = this.state;
 		for (let r = 0; r < size; r++) {
@@ -64,13 +81,19 @@ export default class Main extends Component {
 		board[mid][midMinus] = 'start';
 		board[mid][midPlus] = 'end';
 
-		this.setState({board}); //render
+		this.setState({ board }); //render
 	}
 
 	render() {
-		const { board } = this.state;
+		const mutableBoard = {
+			data: this.state.board,
+			set: newData => this.setState({
+				board: newData
+			})
+		};
+
 		return (
-			<Board board={board} onDragCellChanged={this.onDragCellChanged.bind(this)} />
+			<Board mutableBoard={mutableBoard} />
 		);
 	}
 }
